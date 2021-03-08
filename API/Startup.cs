@@ -77,7 +77,9 @@ namespace TrailerDownloader
 
             app.UseEndpoints(endpoints =>
             {
-
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<MovieRepository>("/moviehub");
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
