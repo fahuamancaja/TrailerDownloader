@@ -63,11 +63,6 @@ namespace TrailerDownloader
             });
 
             services.AddControllers();
-            // In production, the Angular files will be served from this directory
-            // services.AddSpaStaticFiles(configuration =>
-            // {
-            //     configuration.RootPath = "ClientApp/dist";
-            // });
 
             services.AddHttpClient<IMovieRepository, MovieRepository>();
 
@@ -83,51 +78,30 @@ namespace TrailerDownloader
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrailerDownloader API V1");
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
 
             app.UseRouting();
 
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+            app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
-                // endpoints.MapControllerRoute(
-                //     name: "default",
-                //     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<MovieRepository>("/moviehub");
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
 
-            // app.UseSpa(spa =>
-            // {
-            //     spa.Options.SourcePath = "ClientApp";
 
-            //     if (env.IsDevelopment())
-            //     {
-            //         spa.UseAngularCliServer(npmScript: "start");
-            //     }
-            // });
         }
     }
 }
