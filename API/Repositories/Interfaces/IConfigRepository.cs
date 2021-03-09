@@ -7,5 +7,7 @@ namespace TrailerDownloader.Repositories.Interfaces
     {
         Task<Config> GetConfigAsync();
         Task<int> SaveConfigAsync(string path);
+        Task RemoveDataFromDatabase();
+
     }
 }

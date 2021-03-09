@@ -2,7 +2,7 @@
 {
     public class Config
     {
-        public int Id { get; set; }
+        public int ConfigId { get; set; }
         public string BaseMediaPath { get; set; }
     }
 }

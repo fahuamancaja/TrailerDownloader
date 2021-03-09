@@ -5,7 +5,7 @@ namespace TrailerDownloader.Models
     public class Movie
     {
         [Key]
-        public int Id { get; set; }
+        public int MovieId { get; set; }
         public string PosterPath { get; set; }
         public string TrailerURL { get; set; }
         public int TMDBId { get; set; }
