@@ -13,22 +13,24 @@ namespace TrailerDownloader
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-            try
-            {
-                var context = services.GetRequiredService<MovieDbContext>();
-                await context.Database.MigrateAsync();
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred during migration");
-            }
-            await host.RunAsync();
+            CreateHostBuilder(args).Build().Run();
+
+            // var host = CreateHostBuilder(args).Build();
+            // using var scope = host.Services.CreateScope();
+            // var services = scope.ServiceProvider;
+            // try
+            // {
+            //     var context = services.GetRequiredService<MovieDbContext>();
+            //     await context.Database.MigrateAsync();
+            // }
+            // catch (Exception ex)
+            // {
+            //     var logger = services.GetRequiredService<ILogger<Program>>();
+            //     logger.LogError(ex, "An error occurred during migration");
+            // }
+            // await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
