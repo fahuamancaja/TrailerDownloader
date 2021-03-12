@@ -31,15 +31,17 @@ namespace TrailerDownloader.Repositories
         {
             var config = await _context.Config.FirstOrDefaultAsync();
             var movies = await _context.Movie.ToListAsync();
-            if(config != null || movies != null)
+
+            if(config != null) _context.Config.Remove(config);
+
+            if(movies.Count != 0)
             {
-                _context.Config.Remove(config);
-                
                 foreach (var movie in movies)
                     {
                         _context.Movie.Remove(movie);
                     }
             }
+            await _context.SaveChangesAsync();
         }
     }
 }
